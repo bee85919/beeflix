@@ -34,10 +34,20 @@ class _DetailScreenState extends State<DetailScreen> {
         image: DecorationImage(
           fit: BoxFit.fill,
           image: NetworkImage(widget.baseUrl + widget.posterPath),
-          opacity: 0.4,
+          opacity: 0.2,
         ),
       ),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         backgroundColor: Colors.transparent,
         body: Column(
           children: [
@@ -45,7 +55,7 @@ class _DetailScreenState extends State<DetailScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(
-                  height: 350,
+                  height: 250,
                 ),
                 FutureBuilder(
                   future: movie,
@@ -61,38 +71,39 @@ class _DetailScreenState extends State<DetailScreen> {
                               style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
-                            StarRating(
-                              rating: snapshot.data!.voteAerage,
-                            ),
+                            const SizedBox(height: 20),
                             Text(
                               snapshot.data!.genres,
                               style: const TextStyle(
                                 fontSize: 14,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
-                            const SizedBox(
-                              height: 30,
+                            const SizedBox(height: 20),
+                            StarRating(
+                              rating: snapshot.data!.voteAerage,
                             ),
+                            const SizedBox(height: 20),
                             const Text(
-                              'Story line',
+                              'Storyline',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
-                                color: Colors.white,
-                              ),
+                                color: Colors.black,
+                              ),                              
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               textAlign: TextAlign.start,
-                            ),
+                            ),                            
+                            const SizedBox(height: 20),
                             Text(
                               snapshot.data!.overview,
                               style: const TextStyle(
                                 fontSize: 18,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -148,7 +159,7 @@ class StarRating extends StatelessWidget {
           rating.toStringAsFixed(1),
           style: const TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: Colors.black,
           ),
         )
       ],

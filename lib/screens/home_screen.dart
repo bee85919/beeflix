@@ -18,62 +18,59 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 80),
-            _buildFutureBuilder(movies, POPULAR),
-            _buildFutureBuilder(moviesNow, NOW),
-            _buildFutureBuilder(moviesComing, COMING),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 50),
+              _buildFutureBuilder(movies, POPULAR),
+              _buildFutureBuilder(moviesNow, NOW),
+              _buildFutureBuilder(moviesComing, COMING),
+            ],
+          ),
         ),
       ),
     );
   }
 
   FutureBuilder<List<MovieModel>> _buildFutureBuilder(
-    Future<List<MovieModel>> future,
-    String movieTitle,
-  ) {
+      Future<List<MovieModel>> future, String movieTitle) {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   movieTitle,
                   style: const TextStyle(
-                    color: Color(0xFF181818),
-                    fontSize: 28,
+                    color: Colors.black,
+                    fontSize: 25,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: movieTitle == POPULAR ? 220 : 300,
-                child: makeList(snapshot, movieTitle),
-              )
-            ],
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: movieTitle == POPULAR ? 200 : 300,
+                  child: makeList(snapshot, movieTitle),
+                ),
+              ],
+            ),
           );
         }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
 
-  ListView makeList(
-    AsyncSnapshot<List<MovieModel>> snapshot,
-    String movieTitle,
-  ) {
+  ListView makeList(AsyncSnapshot<List<MovieModel>> snapshot, String movieTitle) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: snapshot.data!.length,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       itemBuilder: (context, index) {
         var movie = snapshot.data![index];
         return Movie(

@@ -39,7 +39,7 @@ class Movie extends StatelessWidget {
               width: moiveWidth,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 15,
@@ -62,6 +62,8 @@ class Movie extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+
+          if (title.isNotEmpty) const SizedBox(height: 10),
           SizedBox(
             width: 150,
             child: Text(

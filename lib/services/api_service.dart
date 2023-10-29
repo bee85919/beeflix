@@ -9,11 +9,12 @@ class ApiSerivce {
   static const String popular = "popular";
   static const String now = "now-playing";
   static const String coming = "coming-soon";
-
-  static Future<List<MovieModel>> getPopularMovies() async {
+  
+  static Future<List<MovieModel>> fetchMovies(String category) async {
     List<MovieModel> movieInstances = [];
-    final url = Uri.parse('$baseUrl/$popular');
+    final url = Uri.parse('$baseUrl/$category');
     final response = await http.get(url);
+
     if (response.statusCode == 200) {
       final movies = jsonDecode(response.body);
       for (var movie in movies["results"]) {
@@ -22,34 +23,18 @@ class ApiSerivce {
       return movieInstances;
     }
     throw Error();
+  }
+
+  static Future<List<MovieModel>> getPopularMovies() async {
+    return fetchMovies(popular);
   }
 
   static Future<List<MovieModel>> getMoviesNow() async {
-    List<MovieModel> movieInstances = [];
-    final url = Uri.parse('$baseUrl/$now');
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      final movies = jsonDecode(response.body);
-      for (var movie in movies["results"]) {
-        movieInstances.add(MovieModel.fromJson(movie));
-      }
-      return movieInstances;
-    }
-    throw Error();
+    return fetchMovies(now);
   }
 
   static Future<List<MovieModel>> getComingMovies() async {
-    List<MovieModel> movieInstances = [];
-    final url = Uri.parse('$baseUrl/$coming');
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      final movies = jsonDecode(response.body);
-      for (var movie in movies["results"]) {
-        movieInstances.add(MovieModel.fromJson(movie));
-      }
-      return movieInstances;
-    }
-    throw Error();
+    return fetchMovies(coming);
   }
 
   static Future<MovieDetailModel> getMovieById(num id) async {
